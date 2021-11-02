@@ -27,15 +27,47 @@ if (isset($_POST['Submit_Register'])) {
         $errorCount++;
         echo 'Emri duhet te vendoset';
     }
+    if (!preg_match("/^[a-zA-Z-' ]*$/",$firstName)) {
+        echo 'Emri duhet vetem me shkronja dhe hapsira';
+        $errorCount++;
+    }
+    $lastName = $_POST['last_name'];
+    if (empty($lastName)) {
+        $errorCount++;
+        echo 'Mbiemri duhet te vendoset';
+    }
+    if (!preg_match("/^[a-zA-Z-' ]*$/",$firstName)) {
+        echo 'Mbiemri duhet vetem me shkronja dhe hapsira';
+        $errorCount++;
+    }
     $email = $_POST['email'];
     if (empty($email)) {
         $errorCount++;
         echo 'Email eshte i detyrueshem';
+        if(!filter_input(INPUT_POST,"email", FILTER_VALIDATE_EMAIL)){
+            echo "Email isn't valid <br>";
+            $errorCount++;
+        }
     }
     // TODO: validimet e atributeve
-
+      $password = $_POST['[password'];
+    if(empty($password)){
+        $errorCount++;
+        echo  'Password esht i detyrushem';
+    }
+if (!preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $password)) {
+    echo "Password must be at least 8 characters in length and must contain at least one number, one upper case letter, one lower case letter and one special character.";
+  $errorCount++;}
+    $confirm_password = $_POST[['confirm_password']];
+    if(empty($confirm_password)){
+        $errorCount++;
+        echo  'Komfirmimi i password-it esht i detyrushem';
+    }
+    if ($_POST["password"] != $_POST["confirm_password"]) {
+        echo 'Passwordi nuk esht i njejte';
+        $errorCount++;
+    }
     if ($errorCount === 0) {
-        // TODO:query i insert
         echo "Useri u regjistrua me sukses";
     }
 }
